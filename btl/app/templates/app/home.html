@@ -1,0 +1,105 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="{% static 'app/style.css' %}">
+    
+
+</head>
+<body>
+
+<h1>Dashboard</h1>
+
+<div class="container">
+<div class="sensor">
+  <h3>ICP-10101</h3>
+  <p>Temp: <span id="temp">--</span> °C</p>
+  <p>Press: <span id="press">--</span> Pa</p>
+  <p>Alt: <span id="alt">--</span> m</p>
+</div>
+
+<div class="sensor">
+  <h3>ZMOD4410</h3>
+  <p>IAQ: <span id="IAQ">--</span></p>
+  <p>TVOC: <span id="TVOC">--</span> mg/m3</p>
+  <p>eCO2: <span id="eCO2">--</span> ppm</p>
+  <p>EtOH: <span id="EtOH">--</span> ppm</p>
+</div>
+</div>
+
+<div class="last_update">Last update: <span id="ts">--</span></div>
+
+
+<!-- =============== RAW UART SECTION (ADDED) ================== -->
+<h2 style="margin-top:40px;">HISTORY</h2>
+<div id="raw_console">Đang chờ dữ liệu...</div>
+
+
+<script>
+async function fetchLatest() {
+    try {
+        const res = await fetch('/api/latest/', {cache:'no-store'});
+        const data = await res.json();
+        if (data.ok) {
+            document.getElementById('temp').textContent = data.temp;
+            document.getElementById('press').textContent = data.press;
+            document.getElementById('alt').textContent = data.alt;
+
+            document.getElementById('IAQ').textContent = data.IAQ;
+            document.getElementById('TVOC').textContent = data.TVOC;
+            document.getElementById('eCO2').textContent = data.eCO2;
+            document.getElementById('EtOH').textContent = data.EtOH;
+
+            document.getElementById('ts').textContent = new Date(data.timestamp).toLocaleString();
+            document.getElementById('status').textContent = 'Connected';
+        }
+    } catch (e) {
+        document.getElementById('status').textContent = 'Disconnected';
+    }
+}
+
+
+// ================== FETCH RAW UART (ADDED) ==================
+async function fetchRaw() {
+    try {
+        const res = await fetch('/api/raw/', {cache: 'no-store'});
+        const data = await res.json();
+        if (data.ok && Array.isArray(data.lines)) {
+
+            function formatTimestamp(dateObj) {
+                const y = dateObj.getFullYear();
+                const m = String(dateObj.getMonth() + 1).padStart(2, '0');
+                const d = String(dateObj.getDate()).padStart(2, '0');
+                const hh = String(dateObj.getHours()).padStart(2, '0');
+                const mm = String(dateObj.getMinutes()).padStart(2, '0');
+                const ss = String(dateObj.getSeconds()).padStart(2, '0');
+                return `${y}-${m}-${d} ${hh}:${mm}:${ss}`;
+            }
+
+            const lines = data.lines.map(l => {
+                const t = new Date(l.timestamp_iso);
+                const tstr = formatTimestamp(t);
+                return `[${tstr}] ${l.raw}`;
+            });
+
+            const box = document.getElementById('raw_console');
+            box.textContent = lines.join("\n");
+            box.scrollTop = box.scrollHeight;
+        }
+    } catch (e) {
+        console.error('RAW fetch error:', e);
+    }
+}
+
+
+setInterval(fetchLatest, 2000);
+setInterval(fetchRaw, 1000);
+
+fetchLatest();
+fetchRaw();
+</script>
+
+</body>
+</html>

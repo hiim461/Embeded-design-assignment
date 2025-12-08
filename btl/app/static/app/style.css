@@ -1,0 +1,139 @@
+/* --- body & header --- */
+body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+    background: #f4f6f8;
+    color: #333;
+}
+
+h1 {
+    background-color: #eeeb8c;
+    padding: 20px;
+    width: 90%;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    color: #2b7cff;
+    text-align: center;
+    margin-bottom: 20px;
+    margin-left: auto;
+    margin-right: auto;
+}
+h2 {
+    background-color: #eeeb8c;
+    padding: 20px;
+    width: 90%;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    color: #2b7cff;
+    text-align: center;
+    margin-bottom: 20px;
+    margin-left: auto;
+    margin-right: auto;
+}
+h3 {
+    background-color: #ffb013;
+    padding: 20px;
+    width: 90%;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    color: #005e9c;
+    font-size: 30px;
+    text-align: center;
+    margin-bottom: 20px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+
+
+.container 
+{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+}
+/* --- card sensor --- */
+.sensor {
+    background: #fff;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.sensor h2 {
+    margin-top: 0;
+    color: #2b7cff;
+    font-size: 20px;
+    text-align: center;
+}
+
+.sensor p {
+   
+    
+    font-size: 24px;
+    font-weight: bold;
+    margin: 8px 0;
+    text-align: center;
+}
+
+/* --- last update --- */
+.last_update{
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 16px;
+    color: #777;
+}
+#ts {
+    display: block;
+    text-align: center;
+    margin-top: 10px;
+    font-weight: bold;
+    color: #555;
+}
+
+/* --- responsive --- */
+@media (max-width: 768px) {
+    .sensor {
+        width: 90%;
+        margin: 10px auto;
+    }
+}
+/*log */
+/* ============================
+   RAW UART LOG - NEW DESIGN
+   ============================ */
+#raw_log_container {
+    margin: 40px auto 0 auto;
+    max-width: 700px;
+    width: 90%;
+}
+
+#raw_log_title {
+    font-size: 22px;
+    font-weight: bold;
+    margin-bottom: 12px;
+    color: #333;
+    text-align: center;
+}
+
+#raw_console {
+    width: 90%;
+    background: #ffffff;
+    color: #222;
+    font-family: monospace;
+    padding: 15px 20px;
+    border-radius: 10px;
+    max-height: 260px;
+    overflow-y: auto;
+    white-space: pre-wrap;
+    border: 1px solid #dcdcdc;
+    box-shadow: 0px 2px 10px rgba(0,0,0,0.07);
+    line-height: 1.4;
+    margin-left: auto;
+    margin-right: auto;
+}
